@@ -28,7 +28,7 @@ $show_export_btn = $this->show_export_btn;
         <div class="container">
             <div class="row ">
                 <div class="col ">
-                    <h4 class="record-title"><?php print_lang('my_account'); ?></h4>
+                    <h4 class="record-title"><?php print_lang('view_user_info'); ?></h4>
                 </div>
             </div>
         </div>
@@ -48,77 +48,45 @@ $show_export_btn = $this->show_export_btn;
                         $rec_id = (!empty($data['id']) ? urlencode($data['id']) : null);
                         $counter++;
                         ?>
-                        <div class="bg-primary m-2 mb-4">
-                            <div class="profile">
-                                <div class="avatar"><img src="<?php print_link("assets/images/avatar.png") ?>" /> 
-                                </div>
-                                <h1 class="title mt-4"><?php echo $data['name']; ?></h1>
-                            </div>
+                        <div id="page-report-body" class="">
+                            <table class="table table-hover table-borderless table-striped">
+                                <!-- Table Body Start -->
+                                <tbody class="page-data" id="page-data-<?php echo $page_element_id; ?>">
+                                    <tr  class="td-id">
+                                        <th class="title"> <?php print_lang('id'); ?>: </th>
+                                        <td class="value"> <?php echo $data['id']; ?></td>
+                                    </tr>
+                                    <tr  class="td-name">
+                                        <th class="title"> <?php print_lang('name'); ?>: </th>
+                                        <td class="value"> <?php echo $data['name']; ?></td>
+                                    </tr>
+                                    <tr  class="td-mobile_no">
+                                        <th class="title"> <?php print_lang('mobile_no'); ?>: </th>
+                                        <td class="value"> <?php echo $data['mobile_no']; ?></td>
+                                    </tr>
+                                    <tr  class="td-email_id">
+                                        <th class="title"> <?php print_lang('email_id'); ?>: </th>
+                                        <td class="value"> <?php echo $data['email_id']; ?></td>
+                                    </tr>
+                                    <tr  class="td-user_role_id">
+                                        <th class="title"> <?php print_lang('user_role_id'); ?>: </th>
+                                        <td class="value"> <?php echo $data['user_role_id']; ?></td>
+                                    </tr>
+                                </tbody>
+                                <!-- Table Body End -->
+                            </table>
                         </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="mx-3 mb-3">
-                                    <ul class="nav nav-pills flex-column text-left">
-                                        <li class="nav-item">
-                                            <a data-toggle="tab" href="#AccountPageView" class="nav-link active">
-                                                <i class="icon-user"></i> <?php print_lang('account_detail'); ?>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a data-toggle="tab" href="#AccountPageEdit" class="nav-link">
-                                                <i class="icon-pencil"></i> <?php print_lang('edit_account'); ?>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a data-toggle="tab" href="#AccountPageChangeEmail" class="nav-link">
-                                                <i class="icon-envelope-open"></i> <?php print_lang('change_email'); ?>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-sm-9">
-                                <div class="mb-3">
-                                    <div class="tab-content">
-                                        <div class="tab-pane show active fade" id="AccountPageView" role="tabpanel">
-                                            <table class="table table-hover table-borderless table-striped">
-                                                <tbody class="page-data" id="page-data-<?php echo $page_element_id; ?>">
-                                                    <tr  class="td-id">
-                                                        <th class="title"> <?php print_lang('id'); ?>: </th>
-                                                        <td class="value"> <?php echo $data['id']; ?></td>
-                                                    </tr>
-                                                    <tr  class="td-name">
-                                                        <th class="title"> <?php print_lang('name'); ?>: </th>
-                                                        <td class="value"> <?php echo $data['name']; ?></td>
-                                                    </tr>
-                                                    <tr  class="td-mobile_no">
-                                                        <th class="title"> <?php print_lang('mobile_no'); ?>: </th>
-                                                        <td class="value"> <?php echo $data['mobile_no']; ?></td>
-                                                    </tr>
-                                                    <tr  class="td-email_id">
-                                                        <th class="title"> <?php print_lang('email_id'); ?>: </th>
-                                                        <td class="value"> <?php echo $data['email_id']; ?></td>
-                                                    </tr>
-                                                    <tr  class="td-user_role_id">
-                                                        <th class="title"> <?php print_lang('user_role_id'); ?>: </th>
-                                                        <td class="value"> <?php echo $data['user_role_id']; ?></td>
-                                                    </tr>
-                                                </tbody>    
-                                            </table>
-                                        </div>
-                                        <div class="tab-pane fade" id="AccountPageEdit" role="tabpanel">
-                                            <div class=" reset-grids">
-                                                <?php  $this->render_page("account/edit"); ?>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane  fade" id="AccountPageChangeEmail" role="tabpanel">
-                                            <div class=" reset-grids">
-                                                <?php  $this->render_page("account/change_email"); ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="p-3 d-flex">
+                            <?php if($can_edit){ ?>
+                            <a class="btn btn-sm btn-info"  href="<?php print_link("user_info/edit/$rec_id"); ?>">
+                                <i class="icon-pencil"></i> <?php print_lang('edit'); ?>
+                            </a>
+                            <?php } ?>
+                            <?php if($can_delete){ ?>
+                            <a class="btn btn-sm btn-danger record-delete-btn mx-1"  href="<?php print_link("user_info/delete/$rec_id/?csrf_token=$csrf_token&redirect=$current_page"); ?>" data-prompt-msg="Are you sure you want to delete this record?" data-display-style="modal">
+                                <i class="icon-close"></i> <?php print_lang('delete'); ?>
+                            </a>
+                            <?php } ?>
                         </div>
                         <?php
                         }
